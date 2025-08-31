@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "acumputura-"
+name = "acupuntura-"
 version = "0.1.0"
 description = ""
 authors = ["Davidson <deivisonj1@hotmail.com>"]
@@ -16,6 +16,8 @@ collectfast = "^2.2.0"
 sentry-sdk = "^2.35.0"
 gunicorn = "^23.0.0"
 pytest = "^8.4.1"
+psycopg = "^3.2.9"
+boto3 = "^1.40.21"
 
 
 [build-system]

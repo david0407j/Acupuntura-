@@ -1,0 +1,10 @@
+DEBUG=False
+
+SECRET_KEY=sua_chave_secreta_segura_aqui
+
+ALLOWED_HOSTS=127.0.0.1,localhost 
+
+# Configurações do AWS
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_STORAGE_BUCKET_NAME=
