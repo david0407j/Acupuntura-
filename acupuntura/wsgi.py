@@ -1,5 +1,5 @@
 """
-WSGI config for acumputura project.
+WSGI config for acupuntura project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'acumputura.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'acupuntura.settings')
 
 application = get_wsgi_application()
