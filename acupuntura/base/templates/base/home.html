@@ -1,568 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clínica de Acupuntura e Medicina Chinesa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2c544c;
-            --secondary: #a40e4c;
-            --accent: #6e9d8a;
-            --light: #f7f7f7;
-            --dark: #2c2c2c;
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            background-color: var(--light);
-        }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
-            transition: var(--transition);
-        }
-        
-        header.scrolled {
-            padding: 10px 0;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo span {
-            color: var(--secondary);
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            font-size: 24px;
-        }
-        
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-item {
-            margin-left: 30px;
-        }
-        
-        .nav-link {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--secondary);
-            transition: var(--transition);
-        }
-        
-        .nav-link:hover {
-            color: var(--secondary);
-        }
-        
-        .nav-link:hover:after {
-            width: 100%;
-        }
-        
-        .hamburger {
-            display: none;
-            cursor: pointer;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background: linear-gradient(135deg, rgba(44, 84, 76, 0.9) 0%, rgba(110, 157, 138, 0.8) 100%);
-            color: white;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1543456621-82a9f5d2e7a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-            z-index: -1;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-subtitle {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: var(--accent);
-            font-weight: 500;
-        }
-        
-        .hero-title {
-            font-size: 60px;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            color: white;
-        }
-        
-        .hero-description {
-            font-size: 18px;
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--secondary);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 500;
-            transition: var(--transition);
-            border: 2px solid var(--secondary);
-        }
-        
-        .btn:hover {
-            background-color: transparent;
-            color: var(--secondary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-            margin-left: 15px;
-        }
-        
-        .btn-outline:hover {
-            background-color: white;
-            color: var(--primary);
-        }
-        
-        /* About Section */
-        .section {
-            padding: 100px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 40px;
-            margin-bottom: 60px;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 3px;
-            background-color: var(--secondary);
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-        
-        .about-image {
-            flex: 1;
-            position: relative;
-        }
-        
-        .about-image img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .about-image::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid var(--secondary);
-            border-radius: 10px;
-            top: 15px;
-            left: 15px;
-            z-index: -1;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-text h3 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        
-        .about-text p {
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        
-        /* Services Section */
-        .services {
-            background-color: #f9f9f9;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .service-card {
-            background-color: white;
-            padding: 40px 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            text-align: center;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .service-icon {
-            font-size: 40px;
-            color: var(--secondary);
-            margin-bottom: 20px;
-        }
-        
-        .service-title {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-        
-        /* Benefits Section */
-        .benefits {
-            background: linear-gradient(to bottom, var(--primary) 0%, #1e3d36 100%);
-            color: white;
-        }
-        
-        .benefits .section-title {
-            color: white;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            text-align: center;
-        }
-        
-        .benefit-item {
-            padding: 30px;
-        }
-        
-        .benefit-icon {
-            font-size: 40px;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        
-        /* Testimonials Section */
-        .testimonials {
-            background-color: #f9f9f9;
-        }
-        
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .testimonial-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 20px;
-            position: relative;
-            padding-left: 30px;
-        }
-        
-        .testimonial-text:before {
-            content: """;
-            position: absolute;
-            left: 0;
-            top: -15px;
-            font-size: 50px;
-            color: var(--accent);
-            font-family: Arial, sans-serif;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .testimonial-author img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
-        }
-        
-        /* Contact Section */
-        .contact {
-            background-color: #f9f9f9;
-        }
-        
-        .contact-container {
-            display: flex;
-            gap: 50px;
-        }
-        
-        .contact-info {
-            flex: 1;
-        }
-        
-        .contact-form {
-            flex: 1;
-        }
-        
-        .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 15px;
-            font-size: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 16px;
-            transition: var(--transition);
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(44, 84, 76, 0.2);
-        }
-        
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--primary);
-            color: white;
-            padding: 60px 0 30px;
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 50px;
-        }
-        
-        .footer-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-logo span {
-            color: var(--accent);
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .social-link:hover {
-            background-color: var(--secondary);
-            transform: translateY(-3px);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .contact-container {
-                flex-direction: column;
-            }
-            
-            .hero-title {
-                font-size: 48px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                right: -100%;
-                flex-direction: column;
-                background-color: white;
-                width: 250px;
-                height: 100vh;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                transition: 0.4s;
-                padding: 40px 0 0 30px;
-            }
-            
-            .nav-menu.active {
-                right: 0;
-            }
-            
-            .nav-item {
-                margin: 0 0 25px 0;
-            }
-            
-            .hamburger {
-                display: block;
-            }
-            
-            .hero-title {
-                font-size: 36px;
-            }
-            
-            .btn {
-                display: block;
-                margin-bottom: 15px;
-                text-align: center;
-            }
-            
-            .btn-outline {
-                margin-left: 0;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-            }
-        }
-    </style>
+    <title>Clara Araújo Acupuntura</title>
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script defer src="{% static 'js/main.js' %}"></script>
 </head>
 <body>
     <!-- Header & Navigation -->
     <header id="header">
         <div class="container nav-container">
-            <a href="#" class="logo"><i class="fas fa-spa"></i>Acumputura<span>Med</span></a>
+            <a href="#" class="logo"><i class="fas fa-spa"></i>Clara Araújo Acupuntura</a>
             
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
@@ -583,8 +37,8 @@
     <section class="hero" id="home">
         <div class="container hero-content">
             <h3 class="hero-subtitle">Bem-vindo à Clínica</h3>
-            <h1 class="hero-title">Acupuntura & Medicina Chinesa</h1>
-            <p class="hero-description">Há mais de 10 anos proporcionando equilíbrio e bem-estar através das técnicas milenares da medicina chinesa.</p>
+            <h1 class="hero-title">Clara Araújo Acupuntura</h1>
+            <p class="hero-description">desde 2008 proporcionando equilíbrio e bem-estar através Naturologia Aplicada e das técnicas milenares da medicina chinesa.</p>
             <div class="hero-buttons">
                 <a href="#contact" class="btn">Agende uma Consulta</a>
                 <a href="#services" class="btn btn-outline">Nossos Serviços</a>
@@ -592,165 +46,140 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <h2 class="section-title">Sobre Nós</h2>
+   <!-- About Clara Araújo Section -->
+<section class="section" id="about">
+    <div class="container">
+        <h2 class="section-title">Sobre a Dra. Clara Araújo</h2>
+        
+        <div class="about-content">
+            <div class="about-image">
+                <img src="{% static 'img/clara.jpg' %}" alt="Dra. Clara Araújo">
+            </div>
             
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=700&q=80" alt="Acupuntura">
-                </div>
+            <div class="about-text">
+                <h3>Terapias milenares para o equilíbrio do corpo e mente</h3>
                 
-                <div class="about-text">
-                    <h3>Terapias milenares para o equilíbrio do corpo e mente</h3>
-                    <p>A AcumputuraMed é especializada em tratamentos de acupuntura e medicina tradicional chinesa, com foco no bem-estar integral dos pacientes. Nossa abordagem combina conhecimentos ancestrais com técnicas modernas para proporcionar os melhores resultados.</p>
-                    <p>Nossos terapeutas são certificados e possuem ampla experiência no tratamento de diversas condições, sempre priorizando o conforto e a saúde dos pacientes.</p>
-                    <a href="#contact" class="btn">Entre em Contato</a>
-                </div>
+                <p>A Dra. Clara Araújo é especialista em <strong>Acupuntura, Auriculoterapia e Medicina Chinesa</strong>, atuando em Belo Horizonte com dedicação e cuidado personalizado.</p>
+                
+                <p>Com mais de 19 anos de experiência, Clara combina técnicas tradicionais com abordagens modernas, garantindo resultados eficazes e uma experiência acolhedora para cada paciente.</p>
+                
+                <p>Entre seus tratamentos, destacam-se:</p>
+                <ul>
+                    <li>Acupuntura corporal e auricular</li>
+                    <li>Tratamento de dores crônicas e agudas</li>
+                    <li>Controle de estresse, ansiedade e insônia</li>
+                    <li>Cuidados para cólicas, problemas digestivos e energéticos</li>
+                    <li>Programas de bem-estar integrativos</li>
+                </ul>
+                
+                <p>A Dra. Clara prioriza o conforto, a saúde e o bem-estar integral de seus pacientes, proporcionando um atendimento humanizado e resultados duradouros.</p>
+                
+                <a href="#contact" class="btn">Agende sua Consulta</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Services Section -->
-    <section class="section services" id="services">
-        <div class="container">
-            <h2 class="section-title">Nossos Serviços</h2>
+
+   <!-- Services Section -->
+<section class="section services" id="services">
+    <div class="container">
+        <h2 class="section-title">Nossos Serviços</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-needle"></i>
+                </div>
+                <h3 class="service-title">Acupuntura Tradicional</h3>
+                <p>Utilização de agulhas específicas para estimular pontos energéticos e promover o equilíbrio do fluxo de energia vital.</p>
+            </div>
             
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-needle"></i>
-                    </div>
-                    <h3 class="service-title">Acupuntura Tradicional</h3>
-                    <p>Utilização de agulhas específicas para estimular pontos energéticos e promover o equilíbrio do fluxo de energia vital.</p>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-leaf"></i>
                 </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <h3 class="service-title">Fitoterapia Chinesa</h3>
-                    <p>Prescrição de fórmulas personalizadas com ervas medicinais para tratar desequilíbrios e promover a saúde.</p>
+                <h3 class="service-title">Fitoterapia Chinesa</h3>
+                <p>Prescrição de fórmulas personalizadas com ervas medicinais para tratar desequilíbrios e promover a saúde.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
                 </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <h3 class="service-title">Ventosa Terapia</h3>
-                    <p>Técnica que utiliza copos para criar sucção na pele, melhorando a circulação e aliviando dores musculares.</p>
-                </div>
+                <h3 class="service-title">Ventosa Terapia</h3>
+                <p>Técnica que utiliza copos para criar sucção na pele, melhorando a circulação e aliviando dores musculares.</p>
+            </div>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <h3 class="service-title">Moxabustão</h3>
-                    <p>Aplicação de calor em pontos de acupuntura através da queima de artemísia, estimulando a circulação de energia.</p>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-fire"></i>
                 </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-hands"></i>
-                    </div>
-                    <h3 class="service-title">Tuina Massagem</h3>
-                    <p>Massagem terapêutica chinesa que combina manipulações para equilibrar a energia e aliviar tensões.</p>
+                <h3 class="service-title">Moxabustão</h3>
+                <p>Aplicação de calor em pontos de acupuntura através da queima de artemísia, estimulando a circulação de energia.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hands"></i>
                 </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-apple-alt"></i>
-                    </div>
-                    <h3 class="service-title">Orientações Nutricionais</h3>
-                    <p>Recomendações alimentares baseadas na medicina chinesa para promover o equilíbrio através da dieta.</p>
+                <h3 class="service-title">Tuina Massagem</h3>
+                <p>Massagem terapêutica chinesa que combina manipulações para equilibrar a energia e aliviar tensões.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-apple-alt"></i>
                 </div>
+                <h3 class="service-title">Orientações Nutricionais</h3>
+                <p>Recomendações alimentares baseadas na medicina chinesa para promover o equilíbrio através da dieta.</p>
+            </div>
+
+            <!-- Novo serviço Gestação / Aromaterapia -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-baby"></i>
+                </div>
+                <h3 class="service-title">Gestação e Aromaterapia</h3>
+                <p>A aromaterapia pode melhorar a qualidade da gestação e o desenvolvimento do bebê através da inalação de aromas que influenciam o sistema imunológico. 
+                Além disso, proporciona relaxamento, reduz o estresse e melhora a qualidade do sono da gestante.</p>
+            </div>
+
+            <!-- Novo serviço Ansiedade -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <h3 class="service-title">Ansiedade e Aromaterapia</h3>
+                <p>A aromaterapia pode ajudar no tratamento da ansiedade através do uso de óleos essenciais calmantes, como a lavanda, que promovem relaxamento e reduzem os sintomas de ansiedade.</p>
+            </div>
+
+            <!-- Novo serviço Humor -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-laugh-beam"></i>
+                </div>
+                <h3 class="service-title">Humor e Aromaterapia</h3>
+                <p>A aromaterapia pode ajudar na melhora do humor através do uso de óleos essenciais com propriedades estimulantes ou calmantes, que promovem sentimentos de alegria e bem-estar.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Benefits Section -->
-    <section class="section benefits" id="benefits">
-        <div class="container">
-            <h2 class="section-title">Benefícios da Acupuntura</h2>
-            
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-heartbeat"></i>
-                    </div>
-                    <h3>Alívio da Dor</h3>
-                    <p>Eficaz no tratamento de dores crônicas e agudas em diversas partes do corpo.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>Redução do Estresse</h3>
-                    <p>Promove relaxamento profundo e reduz os níveis de cortisol no organismo.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-bed"></i>
-                    </div>
-                    <h3>Melhora do Sono</h3>
-                    <p>Ajuda a regular os ciclos do sono e trata distúrbios como insônia.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-smile"></i>
-                    </div>
-                    <h3>Bem-estar Mental</h3>
-                    <p>Equilibra as emoções e auxilia no tratamento de ansiedade e depressão.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Testimonials Section -->
+<section class="section testimonials" id="testimonials">
+  <div class="container">
+    <h2 class="section-title">Depoimentos dos Pacientes</h2>
 
-    <!-- Testimonials Section -->
-    <section class="section testimonials" id="testimonials">
-        <div class="container">
-            <h2 class="section-title">Depoimentos</h2>
-            
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">Há anos sofria com dores nas costas e a acupuntura mudou minha vida. Em poucas sessões já senti uma melhora significativa. Recomendo a todos!</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Maria Silva">
-                        <div>
-                            <h4>Maria Silva</h4>
-                            <p>Paciente há 2 anos</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">Procurei a acupuntura para tratar minha ansiedade e os resultados foram surpreendentes. Além das agulhas, as orientações de estilo de vida foram fundamentais.</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="João Santos">
-                        <div>
-                            <h4>João Santos</h4>
-                            <p>Paciente há 1 ano</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">Iniciei o tratamento para insônia e não poderia estar mais satisfeita. Voltei a ter noites de sono reparador e minha qualidade de vida melhorou muito.</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ana Costa">
-                        <div>
-                            <h4>Ana Costa</h4>
-                            <p>Paciente há 6 meses</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Widget do Trustindex -->
+    <div class="reviews-widget">
+      <div class="ti-widget-container" id="ti-widget-c8220cf54ce5094ee7361a4daba"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Script do Trustindex -->
+<script defer async src="https://cdn.trustindex.io/loader.js?c8220cf54ce5094ee7361a4daba"></script>
 
     <!-- Contact Section -->
     <section class="section contact" id="contact">
@@ -844,7 +273,7 @@
         <div class="container">
             <div class="footer-content">
                 <div>
-                    <div class="footer-logo">Acumputura<span>Med</span></div>
+                    <div class="footer-logo">Clara Araújo Acupuntura</div>
                     <p>Equilíbrio e bem-estar através da medicina chinesa milenar.</p>
                 </div>
                 
@@ -860,37 +289,9 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2023 AcumputuraMed - Todos os direitos reservados.</p>
+                <p>&copy; 2023 Clara Araújo Acupuntura - Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
-
-    <script>
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-        
-        // Mobile menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
-        
-        hamburger.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('active');
-            });
-        });
-    </script>
 </body>
 </html>
