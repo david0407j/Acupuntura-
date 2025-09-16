@@ -1,4 +1,4 @@
-name: Django CI
+name: CI
 
 on:
   push:
@@ -24,12 +24,21 @@ jobs:
         ports:
           - "5432:5432"
 
+    env:
+      POSTGRES_USER: acupuntura
+      POSTGRES_PASSWORD: acupuntura
+      POSTGRES_DB: postgres
+      DATABASE_URL: postgres://acupuntura:acupuntura@postgres:5432/postgres
+
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
+      - name: Instalar dependências do sistema
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev
+
       - name: Configurar cache de dependências
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/pip
@@ -45,19 +54,16 @@ jobs:
 
       - name: Esperar PostgreSQL estar pronto
         run: |
-          until pg_isready -h localhost -p 5432; do
+          until pg_isready -h postgres -p 5432; do
             echo "Aguardando PostgreSQL..."
             sleep 2
           done
 
       - name: Rodar migrações do Django
-        run: |
-          poetry run python manage.py migrate
+        run: poetry run python manage.py migrate
 
       - name: Rodar flake8
-        run: |
-          poetry run flake8
+        run: poetry run flake8
 
       - name: Rodar testes com pytest
-        run: |
-          poetry run pytest
+        run: poetry run pytest
