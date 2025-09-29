@@ -1,4 +1,4 @@
-name: CI
+name: acupuntura
 
 on:
   push:
@@ -13,18 +13,6 @@ jobs:
       id-token: write
       contents: read
       attestations: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build artifact
-        run: make my-app
-
-      - name: Attest
-        uses: actions/attest-build-provenance@v3
-        with:
-          subject-path: '${{ github.workspace }}/my-app'
 
     strategy:
       max-parallel: 4
@@ -54,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout do repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -94,3 +82,11 @@ jobs:
 
       - name: Rodar testes com pytest
         run: poetry run pytest
+
+      - name: Build artifact
+        run: make my-app
+
+      - name: Attest
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: "${{ github.workspace }}/my-app"
