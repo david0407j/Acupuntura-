@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: ["sala"]
+  pull_request:
+    branches: ["sala"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: 3.11
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: acupuntura
+          POSTGRES_PASSWORD: acupuntura
+          POSTGRES_DB: postgres
+        ports:
+          - "5432:5432"
+
+    env:
+      POSTGRES_USER: acupuntura
+      POSTGRES_PASSWORD: acupuntura
+      POSTGRES_DB: postgres
+      DATABASE_URL: postgres://acupuntura:acupuntura@postgres:5432/postgres
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar dependências do sistema
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev
+
+      - name: Configurar cache de dependências
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pypoetry
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Instalar dependências com Poetry
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Esperar PostgreSQL estar pronto
+        run: |
+          until pg_isready -h postgres -p 5432; do
+            echo "Aguardando PostgreSQL..."
+            sleep 2
+          done
+
+      - name: Rodar migrações do Django
+        run: poetry run python manage.py migrate
+
+      - name: Rodar flake8
+        run: poetry run flake8
+
+      - name: Rodar testes com pytest
+        run: poetry run pytest
