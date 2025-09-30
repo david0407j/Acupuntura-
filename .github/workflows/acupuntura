@@ -1,4 +1,4 @@
-name: CI
+name: acupuntura
 
 on:
   push:
@@ -9,10 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7, 3.8, 3.9]
 
     services:
       postgres:
@@ -23,38 +19,39 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - "5432:5432"
+        options: >-
+          --health-cmd="pg_isready -U acupuntura"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     env:
       POSTGRES_USER: acupuntura
       POSTGRES_PASSWORD: acupuntura
       POSTGRES_DB: postgres
-      DATABASE_URL: postgres://acupuntura:acupuntura@postgres:5432/postgres
+      DATABASE_URL: postgresql://acupuntura:acupuntura@postgres:5432/postgres
 
     steps:
       - name: Checkout do repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
       - name: Instalar dependências do sistema
         run: sudo apt-get update && sudo apt-get install -y libpq-dev
 
-      - name: Configurar cache de dependências
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.cache/pypoetry
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Instalar Poetry
+        run: pip install poetry
 
-      - name: Instalar dependências com Poetry
-        run: |
-          pip install poetry
-          poetry install
+      - name: Instalar dependências
+        run: poetry install --no-root
 
-      - name: Esperar PostgreSQL estar pronto
+      - name: Aguardar PostgreSQL
         run: |
-          until pg_isready -h postgres -p 5432; do
+          until pg_isready -h postgres -p 5432 -U acupuntura; do
             echo "Aguardando PostgreSQL..."
             sleep 2
           done
