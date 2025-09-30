@@ -292,29 +292,69 @@ header.scrolled {
 
 /* Benefits Section */
 .benefits {
-  background: linear-gradient(to bottom, var(--primary) 0%, #1e3d36 100%);
-  color: white;
+  background-color: #f7f7f7;
+  color: var(--dark);
+  padding: 100px 0;
 }
 
 .benefits .section-title {
-  color: white;
+  color: var(--primary);
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 60px;
+  text-align: center;
+  position: relative;
+}
+
+.benefits .section-title::after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 3px;
+  background-color: var(--secondary);
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .benefits-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  gap: 40px;
   text-align: center;
 }
 
 .benefit-item {
-  padding: 30px;
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .benefit-icon {
-  font-size: 40px;
-  color: var(--accent);
+  font-size: 36px;
+  color: var(--secondary);
   margin-bottom: 20px;
+}
+
+.benefit-item h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  color: var(--primary);
+}
+
+.benefit-item p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4a4a4a;
 }
 
 /* Testimonials Section */
@@ -340,16 +380,6 @@ header.scrolled {
   margin-bottom: 20px;
   position: relative;
   padding-left: 30px;
-}
-
-.testimonial-text:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: -15px;
-  font-size: 50px;
-  color: var(--accent);
-  font-family: Arial, sans-serif;
 }
 
 .testimonial-author {
@@ -584,63 +614,10 @@ footer {
 
 /* Estrelas fixas abaixo do depoimento */
 .ti-widget-container .ti-review-card::after {
-  content: "★★★★★"; /* 5 estrelas */
+  content: "★★★★★";
   font-size: 16px;
-  color: #ffd700; /* dourado */
+  color: #ffd700;
   position: absolute;
   bottom: 15px;
   left: 20px;
-}
-/* Benefícios da Acupuntura */
-.benefits {
-  background-color: #f7f7f7; /* cor de fundo clara para contraste */
-  color: #2c2c2c; /* texto escuro para melhor leitura */
-  padding: 100px 0;
-}
-
-.benefits .section-title {
-  color: #2c544c; /* título em verde mais forte */
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: 60px;
-  text-align: center;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  text-align: center;
-}
-
-.benefit-item {
-  background-color: white;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.benefit-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.benefit-icon {
-  font-size: 36px;
-  color: #ff4500; /* laranja vibrante para chamar atenção */
-  margin-bottom: 20px;
-}
-
-.benefit-item h3 {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  line-height: 1.4;
-}
-
-.benefit-item p {
-  font-size: 16px;
-  line-height: 1.6; /* deixa o texto mais fácil de ler */
-  color: #4a4a4a;
 }
