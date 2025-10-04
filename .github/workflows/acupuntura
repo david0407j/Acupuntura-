@@ -15,16 +15,49 @@ jobs:
       matrix:
         python-version: [3.7, 3.8, 3.9]
 
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: acupuntura
+          POSTGRES_PASSWORD: acupuntura
+          POSTGRES_DB: postgres
+        ports:
+          - "5432:5432"
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        python manage.py test
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Configurar cache de dependências
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pypoetry
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+        name: Instalar dependências com Poetry
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Esperar PostgreSQL estar pronto
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Aguardando PostgreSQL..."
+            sleep 2
+          done
+
+      - name: Rodar migrações do Django
+        run: |
+          poetry run python manage.py migrate
+
+      - name: Rodar flake8
+        run: |
+          poetry run flake8
+
+      - name: Rodar testes com pytest
+        run: |
+          poetry run pytest
