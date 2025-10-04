@@ -2,18 +2,17 @@ name: acupuntura
 
 on:
   push:
-    branches: [ "sala" ]
+    branches: ["sala"]
   pull_request:
-    branches: [ "sala" ]
+    branches: ["sala"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9, 3.10, 3.11]
 
     services:
       postgres:
@@ -29,8 +28,13 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
       - name: Configurar cache de dependências
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/pip
@@ -38,7 +42,8 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-        name: Instalar dependências com Poetry
+
+      - name: Instalar dependências com Poetry
         run: |
           pip install poetry
           poetry install
