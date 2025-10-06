@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "acupuntura-"
 version = "0.1.0"
 description = ""
 authors = ["Davidson <deivisonj1@hotmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "acupuntura" }
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
