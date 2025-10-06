@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_USER: acupuntura
+      POSTGRES_PASSWORD: acupuntura
+      POSTGRES_DB: postgres
 
     services:
       postgres:
@@ -21,16 +25,13 @@ jobs:
           - "5432:5432"
 
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
-      - name: Configurar cache de dependências
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.cache/pip
@@ -40,26 +41,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-poetry-
 
-      - name: Instalar dependências com Poetry
-        run: |
-          pip install poetry
-          poetry install
+      - run: pip install poetry
+      - run: poetry install
 
-      - name: Esperar PostgreSQL estar pronto
-        run: |
-          until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
+      - run: |
+          for i in {1..30}; do
+            pg_isready -h localhost -p 5432 -U $POSTGRES_USER && break
             echo "Aguardando PostgreSQL..."
-            sleep 2
+            sleep 5
           done
 
-      - name: Rodar migrações do Django
-        run: |
-          poetry run python manage.py migrate
-
-      - name: Rodar flake8
-        run: |
-          poetry run flake8
-
-      - name: Rodar testes com pytest
-        run: |
-          poetry run pytest
+      - run: poetry run python manage.py migrate
+      - run: poetry run flake8
+      - run: poetry run pytest
