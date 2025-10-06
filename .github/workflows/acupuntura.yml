@@ -43,9 +43,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-poetry-
 
-      - run: pip install poetry
+      - name: Instalar Poetry
+        run: pip install poetry
 
-      - run: poetry install
+      - name: Instalar dependências
+        run: poetry install --no-root
 
       - name: Esperar PostgreSQL estar pronto
         run: |
