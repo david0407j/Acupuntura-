@@ -1,0 +1,65 @@
+name: acupuntura
+
+on:
+  push:
+    branches: ["sala"]
+  pull_request:
+    branches: ["sala"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_USER: acupuntura
+      POSTGRES_PASSWORD: acupuntura
+      POSTGRES_DB: postgres
+      DATABASE_URL: postgres://acupuntura:acupuntura@localhost:5432/postgres
+      DJANGO_SETTINGS_MODULE: acupuntura.settings
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: acupuntura
+          POSTGRES_PASSWORD: acupuntura
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pypoetry
+            .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - run: pip install poetry
+
+      - run: poetry install
+
+      - name: Esperar PostgreSQL estar pronto
+        run: |
+          echo "Aguardando PostgreSQL..."
+          for i in {1..30}; do
+            pg_isready -h localhost -p 5432 -U $POSTGRES_USER && break
+            sleep 5
+          done
+
+      - name: Rodar migrações do Django
+        run: poetry run python manage.py migrate
+
+      - name: Rodar flake8
+        run: poetry run flake8
+
+      - name: Rodar testes com pytest
+        run: poetry run pytest --maxfail=1 --disable-warnings -q
