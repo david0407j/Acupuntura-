@@ -26,8 +26,7 @@ jobs:
 
       - name: Configurar Python
         uses: actions/setup-python@v5
-        with:
-          python-version: 3.11
+        with: [3.10, 3.11, 3.12]
       - name: Configurar cache de dependências
         uses: actions/cache@v3
         with:
