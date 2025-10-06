@@ -38,9 +38,10 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.cache/pypoetry
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+            .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-poetry-
 
       - name: Instalar dependências com Poetry
         run: |
@@ -49,7 +50,7 @@ jobs:
 
       - name: Esperar PostgreSQL estar pronto
         run: |
-          until pg_isready -h localhost -p 5432; do
+          until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
             echo "Aguardando PostgreSQL..."
             sleep 2
           done
