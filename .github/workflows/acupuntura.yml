@@ -1,4 +1,4 @@
-name: acupuntura.yml
+name: acupuntura
 
 on:
   push:
