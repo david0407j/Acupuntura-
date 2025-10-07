@@ -1,29 +1,80 @@
-name: acupuntura.yml
+name: acupuntura
 
 on:
   push:
-    branches: ["main"]
+    branches: ["sala"]   # Mantém a branch de desenvolvimento
   pull_request:
-    branches: ["main"]
+    branches: ["sala"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: 3.11
+
+    env:
+      DEBUG: "True"
+      SECRET_KEY: ${{ secrets.SECRET_KEY || 'django-insecure-test-key' }}
+      POSTGRES_USER: acupuntura
+      POSTGRES_PASSWORD: acupuntura
+      POSTGRES_DB: postgres
+      DATABASE_URL: postgres://acupuntura:acupuntura@localhost:5432/postgres
+      DJANGO_SETTINGS_MODULE: acupuntura.settings
+      ALLOWED_HOSTS: 127.0.0.1,localhost
+
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: acupuntura
+          POSTGRES_PASSWORD: acupuntura
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U acupuntura"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Dependencies
+          python-version: 3.11
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pypoetry
+            .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - name: Instalar Poetry
+        run: pip install poetry
+
+      - name: Instalar dependências (incluindo dev)
+        run: poetry install --with dev
+
+      - name: Esperar PostgreSQL
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run Tests
-        run: |
-          python manage.py test
+          echo "Aguardando PostgreSQL..."
+          until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
+            sleep 2
+          done
+
+      - name: Rodar migrações
+        run: poetry run python manage.py migrate
+
+      - name: Rodar Flake8
+        run: poetry run flake8
+
+      - name: Rodar testes Django
+        run: poetry run pytest --maxfail=1 --disable-warnings -q
+

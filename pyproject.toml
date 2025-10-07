@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Davidson <deivisonj1@hotmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "acupuntura" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -18,7 +21,10 @@ gunicorn = "^23.0.0"
 pytest = "^8.4.1"
 psycopg = "^3.2.9"
 boto3 = "^1.40.21"
+psycopg2-binary = "^2.9"
 
+[tool.poetry.group.dev.dependencies]
+pytest-django = "^4.11.1"
 
 [build-system]
 requires = ["poetry-core"]
