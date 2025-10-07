@@ -9,13 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     env:
+      DEBUG: "True"
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
       POSTGRES_USER: acupuntura
       POSTGRES_PASSWORD: acupuntura
       POSTGRES_DB: postgres
       DATABASE_URL: postgres://acupuntura:acupuntura@localhost:5432/postgres
       DJANGO_SETTINGS_MODULE: acupuntura.settings
-      SECRET_KEY: ${{ secrets.SECRET_KEY }} # ✅ Adicione esta linha
+      ALLOWED_HOSTS: 127.0.0.1,localhost
 
     services:
       postgres:
@@ -26,6 +29,11 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U acupuntura"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - uses: actions/checkout@v3
