@@ -2,9 +2,9 @@ name: acupuntura
 
 on:
   push:
-    branches: ["sala"]   # Mantém a branch de desenvolvimento
+    branches: ["main"]   # Mantém a branch de desenvolvimento
   pull_request:
-    branches: ["sala"]
+    branches: ["main"]
 
 jobs:
   build:
