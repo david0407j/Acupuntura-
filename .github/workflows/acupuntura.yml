@@ -2,7 +2,7 @@ name: acupuntura
 
 on:
   push:
-    branches: ["sala"]
+    branches: ["sala"]   # Mantém a branch de desenvolvimento
   pull_request:
     branches: ["sala"]
 
@@ -77,3 +77,4 @@ jobs:
 
       - name: Rodar testes Django
         run: poetry run pytest --maxfail=1 --disable-warnings -q
+
