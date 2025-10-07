@@ -15,6 +15,7 @@ jobs:
       POSTGRES_DB: postgres
       DATABASE_URL: postgres://acupuntura:acupuntura@localhost:5432/postgres
       DJANGO_SETTINGS_MODULE: acupuntura.settings
+      SECRET_KEY: ${{ secrets.SECRET_KEY }} # ✅ Adicione esta linha
 
     services:
       postgres:
@@ -27,15 +28,12 @@ jobs:
           - 5432:5432
 
     steps:
-      # 1️⃣ Checkout do repositório
       - uses: actions/checkout@v3
 
-      # 2️⃣ Configurar Python 3.11
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
-      # 3️⃣ Cache das dependências do Poetry
       - uses: actions/cache@v3
         with:
           path: |
@@ -46,15 +44,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-poetry-
 
-      # 4️⃣ Instalar Poetry
       - name: Instalar Poetry
         run: pip install poetry
 
-      # 5️⃣ Instalar dependências do projeto
       - name: Instalar dependências
         run: poetry install
 
-      # 6️⃣ Esperar PostgreSQL estar pronto
       - name: Esperar PostgreSQL
         run: |
           echo "Aguardando PostgreSQL..."
@@ -62,14 +57,11 @@ jobs:
             sleep 2
           done
 
-      # 7️⃣ Rodar migrações do Django
       - name: Rodar migrações
         run: poetry run python manage.py migrate
 
-      # 8️⃣ Rodar Flake8
       - name: Rodar Flake8
         run: poetry run flake8
 
-      # 9️⃣ Rodar testes com Pytest
       - name: Rodar testes
         run: poetry run pytest --maxfail=1 --disable-warnings -q
