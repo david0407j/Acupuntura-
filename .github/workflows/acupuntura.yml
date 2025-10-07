@@ -59,8 +59,8 @@ jobs:
       - name: Instalar Poetry
         run: pip install poetry
 
-      - name: Instalar dependências
-        run: poetry install
+      - name: Instalar dependências (incluindo dev)
+        run: poetry install --with dev
 
       - name: Esperar PostgreSQL
         run: |
@@ -75,5 +75,5 @@ jobs:
       - name: Rodar Flake8
         run: poetry run flake8
 
-      - name: Rodar testes
+      - name: Rodar testes Django
         run: poetry run pytest --maxfail=1 --disable-warnings -q
