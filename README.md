@@ -50,20 +50,6 @@ Acupuntura/
 └── README.md
 ```
 
----
-
-# ⚙️ Funcionalidades
-
-O sistema possui funcionalidades básicas de gerenciamento de dados:
-
-- ✅ Cadastro de registros
-- ✅ Listagem de dados
-- ✅ Atualização de registros
-- ✅ Exclusão de registros
-- ✅ Organização de arquivos estáticos
-
----
-
 # 🧪 Qualidade de Código
 
 O projeto utiliza **Flake8** para análise e padronização do código Python.
@@ -173,14 +159,6 @@ Durante o desenvolvimento deste projeto foram praticados:
 
 ---
 
-# 🚀 Melhorias Futuras
-
-- Sistema de autenticação de usuários
-- Cadastro de pacientes
-- Histórico de atendimentos
-- Dashboard administrativo
-- Deploy em nuvem
-
 ---
 
 # 👨‍💻 Autor
@@ -193,6 +171,3 @@ Durante o desenvolvimento deste projeto foram praticados:
 GitHub:  
 https://github.com/david0407j
 
----
-
-⭐ Se você gostou do projeto, deixe uma **estrela no repositório**.
